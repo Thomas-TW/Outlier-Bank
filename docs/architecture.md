@@ -1,6 +1,6 @@
 # Architecture distribuée
 
-Le cœur est installé dans `agent-os/lib/outlier-bank/`. Il dépend uniquement du stockage JSON de l’hôte et de l’adaptateur YouTube. Le routeur est séparé afin de limiter le raccord à `server.js` à un import et une délégation.
+Le cœur est installé dans `agent-os/lib/outlier-bank/`. Il dépend du stockage JSON de l’hôte et embarque son propre client YouTube Data API. Celui-ci détecte les clés dans le coffre de l’utilisateur ou dans `YOUTUBE_API_KEY`/`YOUTUBE_API_KEYS`, assure leur rotation et conserve uniquement un ledger de quota sans valeur secrète. Le routeur est séparé afin de limiter le raccord à `server.js` à un import et une délégation.
 
 La page est enregistrée via `AgentOS.register("outliers", ...)`. Ses styles résident dans une feuille séparée et utilisent le préfixe `ob-`.
 

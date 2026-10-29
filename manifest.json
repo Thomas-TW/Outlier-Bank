@@ -1,11 +1,11 @@
 {
   "name": "agentic-os-outlier-bank",
-  "version": "1.0.0-preparation.1",
+  "version": "1.0.0-preparation.2",
   "description": "Distribution isolée d’Outlier Bank pour Agentic OS, avec extension Chrome et intégration facultative Niche Finder.",
   "requires": {
     "node": ">=18",
     "agenticOs": "architecture compatible vérifiée par installer/preflight.js",
-    "youtubeDataApi": "service dataApi et clés appartenant à l’utilisateur"
+    "youtubeDataApi": "client inclus ; clés appartenant à l’utilisateur requises"
   },
   "optional": ["Telegram", "Niche Finder"],
   "excluded": ["Title Generator", "bibliothèque personnelle", "folders personnels", "miniatures personnelles", "secrets"]

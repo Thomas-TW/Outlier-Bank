@@ -54,8 +54,8 @@ copy(path.join(distribution, "package", "agent-os", "public", "js", "pages", "ou
 copy(path.join(distribution, "package", "agent-os", "public", "css", "outlier-bank.css"), path.join(appDir, "public", "css", "outlier-bank.css"));
 
 let server = fs.readFileSync(serverFile, "utf8");
-const youtubeImport = server.includes('const yt = require("./lib/youtube");') ? 'const yt = require("./lib/youtube");' : "const yt = require('./lib/youtube');";
-server = replaceOnce(server, youtubeImport, '\nconst outlierBankRoutes = require("./lib/outlier-bank/routes");', "import serveur");
+const pathImport = server.includes('const path = require("path");') ? 'const path = require("path");' : "const path = require('path');";
+server = replaceOnce(server, pathImport, '\nconst outlierBankRoutes = require("./lib/outlier-bank/routes");', "import serveur");
 server = replaceOnce(server, "  const p = url.pathname;", '\n  try {\n    if (await outlierBankRoutes.handle({ req, res, url, path: p, readBody, json, telegram: typeof telegram !== "undefined" ? telegram : null })) return;\n  } catch (error) {\n    return json(res, 500, { error: error.message });\n  }', "routeur HTTP");
 fs.writeFileSync(serverFile, server, "utf8");
 

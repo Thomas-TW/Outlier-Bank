@@ -34,11 +34,46 @@ test("Inbox est fournie comme folder système pour une bibliothèque vide", () =
     const writeJSON=()=>{};
     module.exports={DATA_DIR,ensureDir,readJSON,writeJSON};
   `);
-  fs.writeFileSync(path.join(lib, "youtube.js"), "async function dataApi(){} module.exports={dataApi};");
   process.env.AGENTIC_OS_MEDIA_ROOT = path.join(host, "medias");
   const bank = require(path.join(lib, "outlier-bank", "index.js"));
   const view = bank.overview();
   assert.deepEqual(view.inbox, { id: "inbox", name: "Inbox", count: 0, covers: [], system: true });
+});
+
+test("le client YouTube inclus utilise les clés d’environnement sans les persister", async () => {
+  const host = fs.mkdtempSync(path.join(os.tmpdir(), "ob-youtube-"));
+  const lib = path.join(host, "agent-os", "lib");
+  fs.mkdirSync(lib, { recursive: true });
+  fs.cpSync(path.join(root, "package", "agent-os", "lib", "outlier-bank"), path.join(lib, "outlier-bank"), { recursive: true });
+  const data = path.join(host, "data");
+  fs.writeFileSync(path.join(lib, "store.js"), `
+    const fs=require("fs"),path=require("path"),base=${JSON.stringify(data)};
+    const file=(name)=>path.join(base,name);
+    const readJSON=(name,fallback)=>{try{return JSON.parse(fs.readFileSync(file(name),"utf8"))}catch{return fallback}};
+    const writeJSON=(name,value)=>{fs.mkdirSync(path.dirname(file(name)),{recursive:true});fs.writeFileSync(file(name),JSON.stringify(value))};
+    module.exports={readJSON,writeJSON};
+  `);
+  const previous = process.env.YOUTUBE_API_KEYS;
+  const previousFetch = global.fetch;
+  process.env.YOUTUBE_API_KEYS = "fixture-key-one,fixture-key-two";
+  let requestedUrl = "";
+  global.fetch = async (url) => {
+    requestedUrl = String(url);
+    return { ok: true, status: 200, json: async () => ({ items: [{ id: "abcdefghijk" }] }) };
+  };
+  const youtube = require(path.join(lib, "outlier-bank", "youtube-tools.js"));
+  assert.equal(youtube.status().bundled, true);
+  assert.equal(youtube.status().keyCount, 2);
+  const response = await youtube.dataApi("videos", { part: "snippet", id: "abcdefghijk" }, 1);
+  assert.equal(response.items[0].id, "abcdefghijk");
+  assert.match(requestedUrl, /^https:\/\/www\.googleapis\.com\/youtube\/v3\/videos\?/);
+  assert.match(requestedUrl, /key=fixture-key-(one|two)/);
+  const ledger = fs.readFileSync(path.join(data, "outliers", "youtube-quota.json"), "utf8");
+  assert.equal(ledger.includes("fixture-key-one"), false);
+  assert.equal(ledger.includes("fixture-key-two"), false);
+  if (previous === undefined) delete process.env.YOUTUBE_API_KEYS;
+  else process.env.YOUTUBE_API_KEYS = previous;
+  global.fetch = previousFetch;
 });
 
 test("l’audit précède une installation cloisonnée sur une fixture compatible", () => {
@@ -50,7 +85,7 @@ test("l’audit précède une installation cloisonnée sur une fixture compatibl
     fs.writeFileSync(file, value, "utf8");
   };
   write("server.js", [
-    'const yt = require("./lib/youtube");',
+    'const path = require("path");',
     "function json() {}",
     "async function readBody() { return {}; }",
     "async function handler(req, res) {",
@@ -64,7 +99,6 @@ test("l’audit précède une installation cloisonnée sur une fixture compatibl
   write("public/js/core.js", "const AgentOS={register(){},api(){},toast(){}};");
   write("public/js/pages/niche.js", 'const html = `<div class="niche-card"><span class="add-drop"></span><a href="https://youtube.com/watch?v=abcdefghijk"></a></div>`;');
   write("lib/store.js", "module.exports={};");
-  write("lib/youtube.js", "async function dataApi(){} module.exports={dataApi};");
   write("lib/files.js", "function resolveLocal(){} module.exports={resolveLocal};");
   write("data/vault.json", JSON.stringify({ youtube_keys: [{ label: "fixture", blob: "not-a-secret" }] }));
 

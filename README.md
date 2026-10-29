@@ -30,8 +30,7 @@ templates/library.empty.json          exemple strictement vide
 
 - Node.js 18 ou supérieur (`fetch` natif requis).
 - Agentic OS disposant de son stockage JSON et d’un service média local.
-- Un service YouTube exposant une fonction `dataApi` compatible avec la YouTube Data API v3.
-- Au moins une clé YouTube appartenant à l’utilisateur. Aucune clé n’est fournie ici.
+- Au moins une clé YouTube Data API v3 appartenant à l’utilisateur. Le client API est fourni avec Outlier Bank ; aucune clé n’est fournie.
 - Telegram est facultatif : son absence désactive seulement les notifications.
 - Niche Finder est facultatif : son absence ne bloque ni la banque ni l’extension.
 
@@ -58,9 +57,11 @@ L’installateur sauvegarde les fichiers partagés qu’il modifie. Il refuse un
 
 ## YouTube Data API
 
-Outlier Bank ne contient et ne copie aucune clé. L’adaptateur réutilise le service YouTube et le coffre de l’Agentic OS hôte. L’audit vérifie l’interface du service et, lorsque cela peut être fait sans révéler les valeurs, le nombre de clés configurées.
+Outlier Bank fournit son propre client YouTube Data API : récupération des vidéos, chaînes et uploads, rotation entre plusieurs clés et suivi local du quota. Aucun module YouTube Tools préalable n’est nécessaire dans l’Agentic OS hôte.
 
-Si aucune clé n’est trouvée, l’utilisateur doit être informé avant installation. Une clé absente empêche l’ajout et l’actualisation des vidéos, mais ne doit jamais conduire l’IA à inventer, demander d’afficher ou publier un secret.
+Le client recherche les clés appartenant à l’utilisateur dans le coffre Agentic OS lorsque celui-ci expose `vault.youtubeKeys()`, puis dans `YOUTUBE_API_KEY` ou `YOUTUBE_API_KEYS`. Cette dernière accepte plusieurs clés séparées par une virgule, un point-virgule ou un espace. Les valeurs ne sont jamais renvoyées par l’API, inscrites dans les logs ou copiées dans le dépôt.
+
+Si aucune clé n’est trouvée, l’utilisateur doit être informé avant installation et l’IA doit lui indiquer les emplacements compatibles ou adapter le connecteur à son coffre après accord. Une clé absente empêche l’ajout et l’actualisation des vidéos, mais ne bloque pas l’installation de l’interface et ne doit jamais conduire l’IA à afficher ou publier un secret.
 
 ## Telegram
 

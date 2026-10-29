@@ -22,7 +22,7 @@ Ne lance pas `installer/install.js`, ne copie aucun fichier et ne modifie aucune
    - registre frontend `AgentOS` ;
    - stockage JSON ;
    - service `/media/` ;
-   - interface `youtube.dataApi` et présence de clés ;
+   - présence de clés YouTube dans le coffre de l’utilisateur ou son environnement, sans afficher leur valeur ;
    - Telegram, facultatif ;
    - Niche Finder, facultatif ;
    - installation Outlier Bank préexistante ;
