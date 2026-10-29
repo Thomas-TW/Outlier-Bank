@@ -2,8 +2,6 @@
 
 Outlier Bank est une bibliothèque locale de vidéos YouTube ayant surperformé par rapport aux vidéos habituelles de leur chaîne. Elle permet d’enregistrer, classer, rechercher, trier, actualiser et exporter ces références sans base de données : les données restent dans un fichier JSON local.
 
-Cette distribution contient uniquement **Outlier Bank et ses intégrations**. Elle ne contient pas Title Generator, aucune vidéo personnelle, aucun folder personnel, aucune miniature et aucun secret.
-
 ## Fonctionnement
 
 - Ajout d’une vidéo longue par URL YouTube.
@@ -113,7 +111,3 @@ Présente-moi ensuite :
 
 Arrête-toi après ce rapport. N’installe rien et ne modifie aucun fichier tant que je ne t’ai pas donné un accord explicite sur le plan présenté.
 ```
-
-## Licence
-
-Aucune licence de redistribution n’est encore sélectionnée dans cette préparation. Le propriétaire devra choisir une licence avant la publication du dépôt GitHub.
