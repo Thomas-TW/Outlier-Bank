@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Agentic OS — Outlier Bank",
+  "version": "1.0.0",
+  "description": "Enregistre des vidéos YouTube dans l’Outlier Bank locale d’Agentic OS.",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://youtube.com/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "icons": {
+    "16": "logo-agentic-os.png",
+    "32": "logo-agentic-os.png",
+    "48": "logo-agentic-os.png",
+    "128": "logo-agentic-os.png"
+  },
+  "action": {
+    "default_title": "Configurer Outlier Bank",
+    "default_icon": {
+      "16": "logo-agentic-os.png",
+      "32": "logo-agentic-os.png",
+      "48": "logo-agentic-os.png",
+      "128": "logo-agentic-os.png"
+    }
+  },
+  "background": { "service_worker": "background.js" },
+  "options_page": "options.html",
+  "content_scripts": [{
+    "matches": ["https://www.youtube.com/*", "https://youtube.com/*"],
+    "js": ["content.js"],
+    "css": ["content.css"],
+    "run_at": "document_idle"
+  }]
+}

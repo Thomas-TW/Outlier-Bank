@@ -1,0 +1,11 @@
+{
+  "name": "agentic-os-outlier-bank-distribution",
+  "version": "1.0.0-preparation.1",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

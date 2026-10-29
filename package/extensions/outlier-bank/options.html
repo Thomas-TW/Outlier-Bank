@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Outlier Bank</title>
+  <style>
+    :root{color-scheme:dark;font:14px system-ui,sans-serif;background:#0b0d10;color:#f5f5f5}body{max-width:620px;margin:48px auto;padding:0 20px}main{padding:24px;border:1px solid #2a2e35;border-radius:14px;background:#12151a}h1{margin:0 0 8px}p{color:#a9afb8}label{display:grid;gap:8px;margin:24px 0 14px}input{padding:11px;border:1px solid #343a43;border-radius:8px;background:#080a0d;color:inherit}button{padding:10px 14px;border:0;border-radius:8px;background:#ff6637;color:#111;font-weight:700;cursor:pointer}button+button{margin-left:8px;background:#252a31;color:#fff}#status{min-height:20px;margin-top:16px}.ok{color:#69dc9c}.err{color:#ff737d}
+  </style>
+</head>
+<body><main>
+  <h1>Outlier Bank</h1>
+  <p>Adresse locale d’Agentic OS. Seules les adresses loopback sont acceptées.</p>
+  <label>Adresse d’Agentic OS<input id="origin" value="http://127.0.0.1:4100" spellcheck="false"></label>
+  <button id="save">Enregistrer et tester</button><button id="sync">Synchroniser maintenant</button>
+  <div id="status" role="status"></div>
+</main><script src="options.js"></script></body>
+</html>

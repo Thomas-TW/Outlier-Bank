@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+.env
+.env.*
+**/data/
+**/vault.json
+**/.vaultkey
+**/credentials.json
+**/client_secret*.json
+**/medias/Outliers/*
+!**/medias/Outliers/.gitkeep
+
